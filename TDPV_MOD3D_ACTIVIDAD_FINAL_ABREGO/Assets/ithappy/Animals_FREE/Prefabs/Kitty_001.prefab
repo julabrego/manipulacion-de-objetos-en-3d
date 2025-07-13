@@ -898,8 +898,7 @@ GameObject:
   - component: {fileID: 6020308598444310925}
   - component: {fileID: 6397291155531275067}
   - component: {fileID: 6397291155531275066}
-  - component: {fileID: 6397291155531275061}
-  - component: {fileID: 6397291155531275060}
+  - component: {fileID: 2794097883996309688}
   m_Layer: 7
   m_Name: Kitty_001
   m_TagString: Untagged
@@ -943,13 +942,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 0.63
-  m_Radius: 0.26
+  m_Height: 0
+  m_Radius: 0.19
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.31, z: 0}
+  m_Center: {x: 0, y: 0.18, z: 0}
 --- !u!95 &6397291155531275066
 Animator:
   serializedVersion: 5
@@ -971,7 +970,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6397291155531275061
+--- !u!114 &2794097883996309688
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -980,41 +979,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6397291155531275063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be2f4aa750c530144bd7219a00354c98, type: 3}
+  m_Script: {fileID: 11500000, guid: bd9c91bcac7d8ec4c8897b4d0283c80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_WalkSpeed: 1
-  m_RunSpeed: 4
-  m_RotateSpeed: 245
-  m_Space: 1
-  m_JumpHeight: 5
-  m_VerticalID: Vert
-  m_StateID: State
-  m_LookWeight:
-    weight: 1
-    body: 0.3
-    head: 0.7
-    eyes: 1
---- !u!114 &6397291155531275060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6397291155531275063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2c67ce836140b4479603ebcf944cddd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_JumpButton: Jump
-  m_RunKey: 304
-  m_Camera: {fileID: 0}
-  m_MouseX: Mouse X
-  m_MouseY: Mouse Y
-  m_MouseScroll: Mouse ScrollWheel
+  isGrounded: 0
+  groundCheckDistance: 0.4
 --- !u!1 &6499904794721092959
 GameObject:
   m_ObjectHideFlags: 0
