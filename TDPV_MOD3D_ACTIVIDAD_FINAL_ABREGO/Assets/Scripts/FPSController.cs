@@ -35,6 +35,10 @@ public class FPSController : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.GetIsPaused())
+        {
+            return;
+        }
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 

@@ -10,16 +10,20 @@ public class GrabItem : MonoBehaviour
 
     private bool isInGrabArea = false;
     private GameObject itemToGrab;
-    public FPSController playerController; 
+    public FPSController playerController;
 
-    // Update is called once per frame
     void Update()
     {
-        if (isInGrabArea && Input.GetMouseButtonDown(0) && grabbingItem == null)
+        if (!GameManager.Instance.GetIsPlaying())
+        {
+            return;
+        }
+
+        if (isInGrabArea && Input.GetMouseButton(0) && grabbingItem == null)
         {
             grabbingItem = itemToGrab;
         }
-        else if (grabbingItem != null && Input.GetMouseButtonDown(0))
+        else if (grabbingItem != null && !Input.GetMouseButton(0))
         {
             Rigidbody rb = grabbingItem.GetComponent<Rigidbody>();
             if (rb != null)
