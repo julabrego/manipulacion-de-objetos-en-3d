@@ -12,6 +12,9 @@ public class GrabItem : MonoBehaviour
     private GameObject itemToGrab;
     public FPSController playerController;
 
+    int LEFT_BUTTON = 0;
+    int RIGHT_BUTTON = 1;
+
     void Update()
     {
         if (!GameManager.Instance.GetIsPlaying())
@@ -19,25 +22,23 @@ public class GrabItem : MonoBehaviour
             return;
         }
 
-        if (isInGrabArea && Input.GetMouseButton(0) && grabbingItem == null)
+        if (isInGrabArea && Input.GetMouseButton(RIGHT_BUTTON) && grabbingItem == null)
         {
             grabbingItem = itemToGrab;
         }
-        else if (grabbingItem != null && !Input.GetMouseButton(0))
+        else if (grabbingItem != null && !Input.GetMouseButton(RIGHT_BUTTON))
         {
             Rigidbody rb = grabbingItem.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.useGravity = true;
 
+                // TODO: Extract this blockto a self descriptive function
                 Vector3 throwDirection = playerCamera.transform.forward.normalized;
-
                 // Obtener la velocidad real del jugador
                 Vector3 playerVelocity = playerController.currentVelocity;
-
                 // Usar la magnitud de la velocidad como fuerza hacia donde mira
                 float launchSpeed = playerVelocity.magnitude;
-
                 rb.velocity = throwDirection * launchSpeed + playerVelocity * 0.6f; // opcional: suma parte de la velocidad
             }
 
@@ -46,6 +47,7 @@ public class GrabItem : MonoBehaviour
 
         if (grabbingItem != null)
         {
+            // TODO: Extract this blockto a self descriptive function
             Vector3 holdOffset = playerCamera.transform.forward * 0.5f
                 + playerCamera.transform.up * -0.3f
                 + playerCamera.transform.right * 0.3f;
