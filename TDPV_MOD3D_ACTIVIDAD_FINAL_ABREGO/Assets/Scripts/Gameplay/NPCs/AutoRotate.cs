@@ -17,7 +17,6 @@ public class AutoRotate : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance + 0.01f);
-        print(isGrounded);
     }
 
     void FixedUpdate()

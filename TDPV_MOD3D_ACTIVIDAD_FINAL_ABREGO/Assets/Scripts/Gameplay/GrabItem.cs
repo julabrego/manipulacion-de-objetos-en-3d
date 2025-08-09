@@ -1,4 +1,5 @@
 using Controller;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 public class GrabItem : MonoBehaviour
 {
     public Camera playerCamera;
-    
+
     public GameObject grabbingItemWithRightHand;
     public GameObject grabbingItemWithLeftHand;
     private GameObject itemToGrab;
@@ -24,14 +25,6 @@ public class GrabItem : MonoBehaviour
             return;
         }
 
-        if (isInGrabArea && Input.GetMouseButton(RIGHT_BUTTON) && grabbingItemWithRightHand == null)
-        {
-            grabbingItemWithRightHand = itemToGrab;
-        }
-        else if (isInGrabArea && Input.GetMouseButton(LEFT_BUTTON) && grabbingItemWithLeftHand == null)
-        {
-            grabbingItemWithLeftHand = itemToGrab;
-        }
         else if (grabbingItemWithRightHand != null && !Input.GetMouseButton(RIGHT_BUTTON))
         {
             Rigidbody rb = grabbingItemWithRightHand.GetComponent<Rigidbody>();
@@ -68,29 +61,72 @@ public class GrabItem : MonoBehaviour
 
             grabbingItemWithLeftHand = null;
         }
-
-        if (grabbingItemWithRightHand != null)
+        else
         {
-            // TODO: Extract this blockto a self descriptive function
-            Vector3 holdOffset = playerCamera.transform.forward * 0.5f
-                + playerCamera.transform.up * -0.3f
-                + playerCamera.transform.right * 0.3f;
-            grabbingItemWithRightHand.transform.SetPositionAndRotation(
-                playerCamera.transform.position + holdOffset,
-                Quaternion.LookRotation(playerCamera.transform.forward) * Quaternion.Euler(-45f, -75f, 0f)
-            );
+            if (isInGrabArea && Input.GetMouseButton(RIGHT_BUTTON) && grabbingItemWithRightHand == null)
+            {
+                grabbingItemWithRightHand = itemToGrab;
+            }
+            if (isInGrabArea && Input.GetMouseButton(LEFT_BUTTON) && grabbingItemWithLeftHand == null)
+            {
+                grabbingItemWithLeftHand = itemToGrab;
+            }
         }
 
-        if (grabbingItemWithLeftHand != null)
+        if (grabbingItemWithRightHand != null || grabbingItemWithLeftHand != null)
         {
-            // TODO: Extract this blockto a self descriptive function
-            Vector3 holdOffset = playerCamera.transform.forward * 0.5f
-                + playerCamera.transform.up * -0.3f
-                + playerCamera.transform.right * -0.3f;
-            grabbingItemWithLeftHand.transform.SetPositionAndRotation(
+            bool hasItemWithTwoHands = grabbingItemWithLeftHand == grabbingItemWithRightHand;
+            Vector3 holdOffset;
+
+            GameObject itemBeingGrabbed = grabbingItemWithRightHand != null ? grabbingItemWithRightHand : grabbingItemWithLeftHand;
+
+            if (hasItemWithTwoHands)
+            {
+                holdOffset = playerCamera.transform.forward * 0.5f
+                    + playerCamera.transform.up * -0.3f
+                    + playerCamera.transform.right * 0.02f;
+
+                itemBeingGrabbed.transform.SetPositionAndRotation(
                 playerCamera.transform.position + holdOffset,
-                Quaternion.LookRotation(playerCamera.transform.forward) * Quaternion.Euler(-45f, 75f, 0f)
-            );
+                Quaternion.LookRotation(playerCamera.transform.forward) * Quaternion.Euler(-45f, 0f, 0f));
+            }
+            else
+            {
+                float rightOffset;
+                float YRotation;
+
+                if (grabbingItemWithRightHand)
+                {
+                    rightOffset = 0.3f;
+                    YRotation = -75f;
+
+                    // TODO: Extract this block to a self descriptive function
+                    holdOffset = playerCamera.transform.forward * 0.5f
+                        + playerCamera.transform.up * -0.3f
+                        + playerCamera.transform.right * rightOffset;
+                    grabbingItemWithRightHand.transform.SetPositionAndRotation(
+                        playerCamera.transform.position + holdOffset,
+                        Quaternion.LookRotation(playerCamera.transform.forward) * Quaternion.Euler(-45f, YRotation, 0f)
+                    );
+                }
+
+                if (grabbingItemWithLeftHand)
+                {
+                    rightOffset = -0.3f;
+                    YRotation = 75f;
+
+                    // TODO: Extract this block to a self descriptive function
+                    holdOffset = playerCamera.transform.forward * 0.5f
+                        + playerCamera.transform.up * -0.3f
+                        + playerCamera.transform.right * rightOffset;
+                    grabbingItemWithLeftHand.transform.SetPositionAndRotation(
+                        playerCamera.transform.position + holdOffset,
+                        Quaternion.LookRotation(playerCamera.transform.forward) * Quaternion.Euler(-45f, YRotation, 0f)
+                    );
+
+                }
+
+            }
         }
     }
     private void OnTriggerEnter(Collider other)
