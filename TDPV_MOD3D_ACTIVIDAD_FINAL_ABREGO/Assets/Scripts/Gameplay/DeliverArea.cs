@@ -22,7 +22,6 @@ public class DeliverArea : MonoBehaviour
     {
         if (other.CompareTag(collectableItemTag))
         {
-            print("ritggering");
             GameEvents.TriggerAddItem();
         }
     }

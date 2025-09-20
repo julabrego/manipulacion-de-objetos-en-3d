@@ -11,9 +11,9 @@ public class GameProgression : MonoBehaviour
     //--------- Events ---------- //
     [SerializeField] UnityEvent<string> OnCollectedItemsTextChanged;
     [SerializeField] UnityEvent<string> OnMessageTriggered;
-    [SerializeField] UnityEvent<bool> OnEndGameTriggered;
-    [SerializeField] UnityEvent<bool> OnCountdownFinishedTriggerd;
-
+    [SerializeField] UnityEvent OnAllItemsCollectedTriggered;
+    [SerializeField] UnityEvent OnCountdownFinishedTriggered;
+    
     private void OnEnable()
     {
         GameEvents.OnVictory += Win;
@@ -34,8 +34,6 @@ public class GameProgression : MonoBehaviour
 
     private void Start()
     {
-        progressionData.CollectableItemsToWin = 7;
-        progressionData.CollectedItems = 0;
     }
 
     public int GetCollectedItems()
@@ -68,12 +66,11 @@ public class GameProgression : MonoBehaviour
     public void Win()
     {
         GameManager.Instance.SetCurrentInGameState(InGameStates.ENDED_GAME);
-        OnEndGameTriggered.Invoke(true);
-        OnCollectedItemsTextChanged.Invoke(GetCollectedItems().ToString());
+        OnAllItemsCollectedTriggered.Invoke();
     }
     public void Lose()
     {
-        OnCountdownFinishedTriggerd.Invoke(false);
-        OnEndGameTriggered.Invoke(false);
+        GameManager.Instance.SetCurrentInGameState(InGameStates.ENDED_GAME);
+        OnCountdownFinishedTriggered.Invoke();
     }
 }

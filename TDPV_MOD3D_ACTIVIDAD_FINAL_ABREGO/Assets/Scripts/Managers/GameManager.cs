@@ -74,8 +74,16 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        currentInGameState = InGameStates.PLAYING_GAME;
+        currentScreen = Screens.GAME;
         ApplicationManager.Instance.GoToScene("Prototype_house");
+    }
 
+    public void Restart()
+    {
+        currentInGameState = InGameStates.PAUSED;
+        currentScreen = Screens.MAIN_MENU;
+        ApplicationManager.Instance.GoToScene("MainMenu");
     }
 
     public bool IsPlayingGame()

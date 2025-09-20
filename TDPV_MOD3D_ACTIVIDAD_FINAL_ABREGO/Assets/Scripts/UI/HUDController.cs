@@ -46,8 +46,9 @@ public class HUDController : MonoBehaviour
         GameEvents.OnPause += PauseGame;
         GameEvents.OnResume += ResumeGame;
         GameEvents.OnUpdateCoundown += UpdateCountdown;
-    }
 
+        UpdateCollectedItemsText();
+    }
 
     private void OnDisable()
     {
@@ -74,4 +75,10 @@ public class HUDController : MonoBehaviour
         pauseModal.gameObject.SetActive(false);
 
     }
+
+    public void Restart()
+    {
+        GameManager.Instance.Restart();
+    }
+
 }

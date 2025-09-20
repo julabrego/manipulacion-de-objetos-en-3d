@@ -21,6 +21,8 @@ public class CountdownTimer : MonoBehaviour
 
     void Update()
     {
+        isCounting = GameManager.Instance.currentInGameState == InGameStates.PLAYING_GAME;
+
         if (isCounting)
         {
             if (totalTime > 0)
