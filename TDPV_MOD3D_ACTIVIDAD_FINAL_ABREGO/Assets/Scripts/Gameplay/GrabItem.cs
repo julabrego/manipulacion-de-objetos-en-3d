@@ -20,19 +20,19 @@ public class GrabItem : MonoBehaviour
 
     void Update()
     {
-        if (!GameManager.Instance.GetIsPlaying())
+        if (!GameManager.Instance.IsPlayingGame())
         {
             return;
         }
 
-        else if (grabbingItemWithRightHand != null && !Input.GetMouseButton(RIGHT_BUTTON))
+        if (grabbingItemWithRightHand != null && !Input.GetMouseButton(RIGHT_BUTTON))
         {
             Rigidbody rb = grabbingItemWithRightHand.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.useGravity = true;
 
-                // TODO: Extract this blockto a self descriptive function
+                // TODO: Extract this block to a self descriptive function
                 Vector3 throwDirection = playerCamera.transform.forward.normalized;
                 // Obtener la velocidad real del jugador
                 Vector3 playerVelocity = playerController.currentVelocity;

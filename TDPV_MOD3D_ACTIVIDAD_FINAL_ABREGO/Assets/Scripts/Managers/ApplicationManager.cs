@@ -7,17 +7,17 @@ public class ApplicationManager : MonoBehaviour
 {
     public static ApplicationManager Instance {  get; private set; }
 
-    private void Awake()
+    public static string[] scenesNames = {"MainMenu", "Prototype_house", "GameLevel2", "EndScene" };
+
+    void Awake()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void GoToNextScene()
@@ -47,6 +47,18 @@ public class ApplicationManager : MonoBehaviour
         else
         {
             Debug.LogWarning("No hay escenas anteriores a la actual en Build Settings");
+        }
+    }
+
+    public void GoToScene(string sceneName)
+    {
+        if (System.Array.Exists(scenesNames, name => name == sceneName))
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+        else
+        {
+            Debug.LogWarning($"La escena '{sceneName}' no está incluida en la lista de escenas gestionadas.");
         }
     }
 }

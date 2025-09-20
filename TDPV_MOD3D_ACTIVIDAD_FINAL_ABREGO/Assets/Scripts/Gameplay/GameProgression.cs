@@ -12,6 +12,7 @@ public class GameProgression : MonoBehaviour
     [SerializeField] UnityEvent<string> OnCollectedItemsTextChanged;
     [SerializeField] UnityEvent<string> OnMessageTriggered;
     [SerializeField] UnityEvent<bool> OnEndGameTriggered;
+    [SerializeField] UnityEvent<bool> OnCountdownFinishedTriggerd;
 
     private void OnEnable()
     {
@@ -19,6 +20,7 @@ public class GameProgression : MonoBehaviour
         GameEvents.OnGameOver += Lose;
         GameEvents.OnAddItem += AddItem;
         GameEvents.OnSubstractItem += SubstractItem;
+        GameEvents.OnCountdownFinished += Lose;
     }
 
     private void OnDisable()
@@ -27,16 +29,14 @@ public class GameProgression : MonoBehaviour
         GameEvents.OnGameOver -= Lose;
         GameEvents.OnAddItem -= AddItem;
         GameEvents.OnSubstractItem -= SubstractItem;
+        GameEvents.OnCountdownFinished -= Lose;
     }
 
     private void Start()
     {
         progressionData.CollectableItemsToWin = 7;
         progressionData.CollectedItems = 0;
-
-        OnCollectedItemsTextChanged.Invoke(GetCollectedItems().ToString()); // TODO: sobro
     }
-
 
     public int GetCollectedItems()
     {
@@ -51,7 +51,7 @@ public class GameProgression : MonoBehaviour
     public void AddItem()
     {
         progressionData.CollectedItems++;
-        OnCollectedItemsTextChanged.Invoke(GetCollectedItems().ToString());  // TODO: sobro (o sobra el otro)
+        OnCollectedItemsTextChanged.Invoke(GetCollectedItems().ToString());
 
         if (GetCollectedItems() >= GetCollectableItemsToWin())
         {
@@ -62,20 +62,18 @@ public class GameProgression : MonoBehaviour
     public void SubstractItem()
     {
         progressionData.CollectedItems--;
-        OnCollectedItemsTextChanged.Invoke(GetCollectedItems().ToString());  // TODO: sobro
+        OnCollectedItemsTextChanged.Invoke(GetCollectedItems().ToString());
     }
 
     public void Win()
     {
-        GameManager.Instance.AddScore(1000);
-        GameManager.Instance.SetIsPlaying(false);
+        GameManager.Instance.SetCurrentInGameState(InGameStates.ENDED_GAME);
         OnEndGameTriggered.Invoke(true);
         OnCollectedItemsTextChanged.Invoke(GetCollectedItems().ToString());
     }
     public void Lose()
     {
+        OnCountdownFinishedTriggerd.Invoke(false);
         OnEndGameTriggered.Invoke(false);
     }
-
-
 }

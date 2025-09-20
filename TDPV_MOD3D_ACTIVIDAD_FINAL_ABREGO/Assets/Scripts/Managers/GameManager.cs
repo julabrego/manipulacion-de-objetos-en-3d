@@ -1,113 +1,121 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public enum Screens
+{
+    OPENING,
+    MAIN_MENU,
+    GAME,
+    END
+}
+
+public enum InGameStates
+{
+    PLAYING_CINEMATIC,
+    PLAYING_GAME,
+    PAUSED,
+    ENDED_GAME,
+}
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private int score;
-    private int highScore;
-
-    private bool isPaused;
-    private bool isPlaying;
-
-    private readonly GameProgression gameProgression;
-
     [SerializeField] private PersistenceKeys persistanceKeys;
     public PersistenceKeys PersistenceKeys { get => persistanceKeys; private set => persistanceKeys = value; }
-    public void AddScore(int _score)
+
+    public Screens currentScreen = Screens.MAIN_MENU;
+    public InGameStates currentInGameState = InGameStates.PLAYING_GAME;
+
+    void Awake()
     {
-        score += _score;
-        if (score > highScore)
+        if (Instance != null && Instance != this)
         {
-            highScore = score;
-            // PersistenceManager.Instance.SetInt(PersistenceKeys.HighScoreKey, highScore);
+            Destroy(gameObject);
+            return;
         }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    public void ResetScore()
+    private void Start()
     {
-        score = 0;
-    }
-
-    public int GetScore()
-    {
-        return score;
-    }
-
-    public int GetHighScore()
-    {
-        return highScore;
-    }
-
-    public bool GetIsPaused()
-    {
-        return isPaused;
-    }
-
-    public bool GetIsPlaying()
-    {
-        return isPlaying;
-    }
-
-    public void SetIsPlaying(bool value)
-    {
-        isPlaying = value;
-    }
-
-    private void Awake()
-    {
-        if (Instance == null)
+        string activeSceneName = SceneManager.GetActiveScene().name;
+        if (!activeSceneName.Equals("MainMenu", System.StringComparison.OrdinalIgnoreCase))
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            // highScore = Mathf.Max(PersistenceManager.Instance.GetInt(PersistenceKeys.HighScoreKey), 0);
-            isPaused = false;
-            isPlaying = true;
+            currentScreen = Screens.GAME;
         }
         else
         {
-            Destroy(gameObject);
+            currentScreen = Screens.MAIN_MENU;
         }
-    }
-
-    private void OnEnable()
-    {
-        GameEvents.OnPause += PauseGame;
-        GameEvents.OnResume += ResumeGame;
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.OnPause -= PauseGame;
-        GameEvents.OnResume -= ResumeGame;
+        currentInGameState = InGameStates.PLAYING_GAME;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (currentScreen.Equals(Screens.GAME))
         {
-            if (Time.timeScale != 0)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                GameEvents.TriggerPause();
-            }
-            else
-            {
-                GameEvents.TriggerResume();
+                if (currentInGameState == InGameStates.PLAYING_GAME)
+                {
+                    SetCurrentInGameState(InGameStates.PAUSED);
+                }
+                else if (currentInGameState == InGameStates.PAUSED)
+                {
+                    SetCurrentInGameState(InGameStates.PLAYING_GAME);
+                }
             }
         }
     }
 
-    private void PauseGame()
+    public void StartGame()
     {
-        Time.timeScale = 0;
-        isPaused = true;
+        ApplicationManager.Instance.GoToScene("Prototype_house");
+
     }
 
-    private void ResumeGame()
+    public bool IsPlayingGame()
     {
-        Time.timeScale = 1;
-        isPaused = false;
+        return currentInGameState == InGameStates.PLAYING_GAME;
     }
+
+    public void SetCurrentScreen(Screens screen)
+    {
+        currentScreen = screen;
+    }
+
+    public void SetCurrentInGameState(InGameStates state)
+    {
+        currentInGameState = state;
+
+        switch (currentInGameState)
+        {
+            case InGameStates.PLAYING_CINEMATIC:
+                Time.timeScale = 1f;
+                break;
+            case InGameStates.PLAYING_GAME:
+                GameEvents.TriggerResume();
+                Time.timeScale = 1f;
+                break;
+            case InGameStates.ENDED_GAME:
+                break;
+            case InGameStates.PAUSED:
+                GameEvents.TriggerPause();
+                Time.timeScale = 0f;
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public void EndGame(bool isWin)
+    {
+        SetCurrentInGameState(InGameStates.ENDED_GAME);
+    }
+
 }
