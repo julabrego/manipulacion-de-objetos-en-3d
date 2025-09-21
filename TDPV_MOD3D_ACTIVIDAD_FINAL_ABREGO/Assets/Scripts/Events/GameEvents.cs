@@ -13,6 +13,7 @@ public static class GameEvents
     public static event Action OnSubstractItem;
     public static event Action OnUpdateCoundown;
     public static event Action OnCountdownFinished;
+    public static event Action<float> OnUpdateElapsedTime;
 
     public static void TriggerPause() => OnPause?.Invoke();
     public static void TriggerResume() => OnResume?.Invoke();
@@ -24,4 +25,5 @@ public static class GameEvents
     public static void TriggerSubstractItem() => OnSubstractItem?.Invoke();
     public static void TriggerCountdownUpdate() => OnUpdateCoundown?.Invoke();
     public static void TriggerCountdownFinished() => OnCountdownFinished?.Invoke();
+    public static void TriggerUpdateElapsedTime(float value) => OnUpdateElapsedTime?.Invoke(value);
 }

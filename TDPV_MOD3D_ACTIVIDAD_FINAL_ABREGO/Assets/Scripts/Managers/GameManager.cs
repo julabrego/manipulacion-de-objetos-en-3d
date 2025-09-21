@@ -23,7 +23,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] private GameProgressionData progressionData;
     [SerializeField] private PersistenceKeys persistanceKeys;
+    
+    public GameProgressionData GameProgression { get => progressionData; private set => progressionData = value; }
     public PersistenceKeys PersistenceKeys { get => persistanceKeys; private set => persistanceKeys = value; }
 
     public Screens currentScreen = Screens.MAIN_MENU;
@@ -124,6 +127,12 @@ public class GameManager : MonoBehaviour
     public void EndGame(bool isWin)
     {
         SetCurrentInGameState(InGameStates.ENDED_GAME);
+    }
+
+    public void DoExitApplication()
+    {
+        Application.Quit();
+        Debug.Log("Exiting the game");
     }
 
 }

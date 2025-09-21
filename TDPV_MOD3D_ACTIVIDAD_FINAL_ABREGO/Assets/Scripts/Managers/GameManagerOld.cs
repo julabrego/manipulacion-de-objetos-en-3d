@@ -12,7 +12,7 @@ public class GameManagerOld : MonoBehaviour
     private bool isPaused;
     private bool isPlaying;
 
-    private readonly GameProgression gameProgression;
+    private readonly LevelProgressionController gameProgression;
 
 
     [SerializeField] private PersistenceKeys persistanceKeys;

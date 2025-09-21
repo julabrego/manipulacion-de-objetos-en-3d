@@ -9,9 +9,10 @@ public class HUDController : MonoBehaviour
     [SerializeField] TextMeshProUGUI collectedItemsText;
     [SerializeField] GameObject centeredMessageModal;
     [SerializeField] TextMeshProUGUI centeredMessageText;
+    [SerializeField] TextMeshProUGUI finalTimeText;
     [SerializeField] TextMeshProUGUI countdownText;
     [SerializeField] GameObject pauseModal;
-    [SerializeField] GameProgression gameProgression;
+    [SerializeField] LevelProgressionController gameProgression;
 
     [SerializeField] CountdownTimer countdownTimerController;
 
@@ -34,6 +35,10 @@ public class HUDController : MonoBehaviour
     public void ShowGameOver(bool victory)
     {
         centeredMessageText.text = victory ? "GANASTE" : "GAME OVER";
+        
+        if (!victory) {
+            finalTimeText.gameObject.SetActive(false);
+        }
 
         collectedItemsText.gameObject.SetActive(false);
         countdownText.gameObject.SetActive(false);
@@ -46,6 +51,7 @@ public class HUDController : MonoBehaviour
         GameEvents.OnPause += PauseGame;
         GameEvents.OnResume += ResumeGame;
         GameEvents.OnUpdateCoundown += UpdateCountdown;
+        GameEvents.OnUpdateElapsedTime += UpdateElapsedTime;
 
         UpdateCollectedItemsText();
     }
@@ -62,6 +68,18 @@ public class HUDController : MonoBehaviour
         if (countdownText != null)
         {
             this.countdownText.text = this.countdownTimerController.formattedCounter;
+        }
+    }
+
+    private void UpdateElapsedTime(float elapsedTime)
+    {
+        if (finalTimeText != null)
+        {
+            float minutes = Mathf.FloorToInt(elapsedTime / 60);
+            float seconds = Mathf.FloorToInt(elapsedTime % 60);
+            string formattedCounter = string.Format("{0:00}:{1:00}", minutes, seconds);
+            finalTimeText.text = "Tu tiempo: " + formattedCounter;
+            finalTimeText.gameObject.SetActive(true);
         }
     }
 

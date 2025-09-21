@@ -1,23 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameProgressionData", menuName = "ScriptableObjects/GameProgressionData", order = 1)]
 public class GameProgressionData : ScriptableObject
 {
-    [Header("Player configuration")]
-    [Tooltip("Collectable item label")]
-    [SerializeField] private string collectableItemLabel;
+    [Header("Score configuration")]
 
     [SerializeField]
-    [Tooltip("Collectable items quantity to win")]
-    private int collectableItemsToWin;
+    [Tooltip("Time record by level")]
+    private TimeRecordByLevel[] _timeRecord;
 
-    [SerializeField]
-    [Tooltip("Collected items")]
-    private int collectedItems;
+    public TimeRecordByLevel[] TimeRecords { get => _timeRecord; set => _timeRecord = value; }
 
-    public string CollectableItemLabel { get => collectableItemLabel; set => collectableItemLabel = value; }
-    public int CollectableItemsToWin { get => collectableItemsToWin; set => collectableItemsToWin = value; }
-    public int CollectedItems { get => collectedItems; set => collectedItems = value; }
+    [System.Serializable]
+    public struct TimeRecordByLevel
+    {
+        public int level;
+        public float timeRecord;
+    }
 }

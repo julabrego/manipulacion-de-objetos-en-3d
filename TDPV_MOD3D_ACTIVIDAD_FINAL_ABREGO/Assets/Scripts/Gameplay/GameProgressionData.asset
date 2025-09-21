@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dd5f001b38407945801c94514fc60ca, type: 3}
   m_Name: GameProgressionData
   m_EditorClassIdentifier: 
-  collectableItemLabel: BabyCat
-  collectableItemsToWin: 7
-  collectedItems: 0
+  _timeRecord:
+  - level: 1
+    timeRecord: 1.6004423

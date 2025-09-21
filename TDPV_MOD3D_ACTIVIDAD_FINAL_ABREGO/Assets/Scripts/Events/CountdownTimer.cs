@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class CountdownTimer : MonoBehaviour
 {
     public float totalTime = 60f;
+    public float elapsedTime = 0f;
     public bool isCounting = true;
     public string formattedCounter = "";
 
@@ -28,7 +29,9 @@ public class CountdownTimer : MonoBehaviour
             if (totalTime > 0)
             {
                 totalTime -= Time.deltaTime;
+                elapsedTime += Time.deltaTime;
                 UpdateCountodownString(totalTime);
+                GameEvents.TriggerUpdateElapsedTime(elapsedTime);
             }
             else
             {
