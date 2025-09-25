@@ -41,6 +41,11 @@ public class GrabItem : MonoBehaviour
                 rb.velocity = throwDirection * launchSpeed + playerVelocity * 0.6f; // opcional: suma parte de la velocidad
             }
 
+            var clickIcons = grabbingItemWithRightHand.GetComponentInChildren<ClickActionIconToggler>();
+            if (clickIcons != null)
+            {
+                clickIcons.isBeingGrabbed = false;
+            }
             grabbingItemWithRightHand = null;
         }
         else if (grabbingItemWithLeftHand != null && !Input.GetMouseButton(LEFT_BUTTON))
@@ -59,6 +64,12 @@ public class GrabItem : MonoBehaviour
                 rb.velocity = throwDirection * launchSpeed + playerVelocity * 0.6f; // opcional: suma parte de la velocidad
             }
 
+            var clickIcons = grabbingItemWithLeftHand.gameObject.GetComponentInChildren<ClickActionIconToggler>();
+            if (clickIcons != null)
+            {
+                Debug.Log("chi");
+                clickIcons.isBeingGrabbed = false;
+            }
             grabbingItemWithLeftHand = null;
         }
         else
@@ -66,10 +77,20 @@ public class GrabItem : MonoBehaviour
             if (isInGrabArea && Input.GetMouseButton(RIGHT_BUTTON) && grabbingItemWithRightHand == null)
             {
                 grabbingItemWithRightHand = itemToGrab;
+                var clickIcons = grabbingItemWithRightHand.GetComponentInChildren<ClickActionIconToggler>();
+                if (clickIcons != null)
+                {
+                    clickIcons.isBeingGrabbed = true;
+                }
             }
             if (isInGrabArea && Input.GetMouseButton(LEFT_BUTTON) && grabbingItemWithLeftHand == null)
             {
                 grabbingItemWithLeftHand = itemToGrab;
+                var clickIcons = grabbingItemWithLeftHand.GetComponentInChildren<ClickActionIconToggler>();
+                if (clickIcons != null)
+                {
+                    clickIcons.isBeingGrabbed = true;
+                }
             }
         }
 
