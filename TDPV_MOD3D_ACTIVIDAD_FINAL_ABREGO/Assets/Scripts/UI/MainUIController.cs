@@ -8,6 +8,7 @@ public class MainUIController : MonoBehaviour
     [SerializeField] private GameObject MainMenuPanel;
     [SerializeField] private GameObject RecordsPanel;
     [SerializeField] private GameObject CreditsPanel;
+    [SerializeField] private GameObject InstructionsPanel;
 
     [SerializeField] private TextMeshProUGUI RecordsText;
 
@@ -15,6 +16,7 @@ public class MainUIController : MonoBehaviour
     {
         MainMenu,
         Records,
+        Instructions,
         Credits
     }
 
@@ -60,21 +62,31 @@ public class MainUIController : MonoBehaviour
             case "MainMenu":
                 MainMenuPanel.SetActive(true);
                 RecordsPanel.SetActive(false);
+                InstructionsPanel.SetActive(false);
                 CreditsPanel.SetActive(false);
                 break;
             case "Records":
                 MainMenuPanel.SetActive(false);
                 RecordsPanel.SetActive(true);
+                InstructionsPanel.SetActive(false);
+                CreditsPanel.SetActive(false);
+                break;
+            case "Instructions":
+                MainMenuPanel.SetActive(false);
+                RecordsPanel.SetActive(false);
+                InstructionsPanel.SetActive(true);
                 CreditsPanel.SetActive(false);
                 break;
             case "Credits":
                 MainMenuPanel.SetActive(false);
                 RecordsPanel.SetActive(false);
+                InstructionsPanel.SetActive(false);
                 CreditsPanel.SetActive(true);
                 break;
             default:
                 MainMenuPanel.SetActive(true);
                 RecordsPanel.SetActive(false);
+                InstructionsPanel.SetActive(false);
                 CreditsPanel.SetActive(false);
                 break;
         }
