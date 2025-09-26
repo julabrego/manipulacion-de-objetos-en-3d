@@ -1887,16 +1887,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1251459715}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: DoExitApplication
-        m_Mode: 1
+      - m_Target: {fileID: 1838678655}
+        m_TargetAssemblyTypeName: MainUIController, Assembly-CSharp
+        m_MethodName: SetCurrentPanel
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Instructions
           m_BoolArgument: 0
         m_CallState: 1
 --- !u!114 &995618474
@@ -3890,6 +3890,7 @@ MonoBehaviour:
   MainMenuPanel: {fileID: 1145252485}
   RecordsPanel: {fileID: 1917532908}
   CreditsPanel: {fileID: 959638720}
+  InstructionsPanel: {fileID: 1758857538}
   RecordsText: {fileID: 1224870936}
 --- !u!114 &1838678656
 MonoBehaviour:
