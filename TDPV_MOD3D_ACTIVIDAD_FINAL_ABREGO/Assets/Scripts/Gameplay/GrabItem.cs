@@ -32,6 +32,8 @@ public class GrabItem : MonoBehaviour
             {
                 rb.useGravity = true;
 
+                SoundFXEvents.TriggerThrowSound();
+
                 // TODO: Extract this block to a self descriptive function
                 Vector3 throwDirection = playerCamera.transform.forward.normalized;
                 // Obtener la velocidad real del jugador
@@ -54,6 +56,8 @@ public class GrabItem : MonoBehaviour
             if (rb != null)
             {
                 rb.useGravity = true;
+
+                SoundFXEvents.TriggerThrowSound();
 
                 // TODO: Extract this blockto a self descriptive function
                 Vector3 throwDirection = playerCamera.transform.forward.normalized;
@@ -78,6 +82,7 @@ public class GrabItem : MonoBehaviour
             {
                 grabbingItemWithRightHand = itemToGrab;
                 var clickIcons = grabbingItemWithRightHand.GetComponentInChildren<ClickActionIconToggler>();
+                SoundFXEvents.TriggerGrabSound();
                 if (clickIcons != null)
                 {
                     clickIcons.isBeingGrabbed = true;
@@ -86,6 +91,7 @@ public class GrabItem : MonoBehaviour
             if (isInGrabArea && Input.GetMouseButton(LEFT_BUTTON) && grabbingItemWithLeftHand == null)
             {
                 grabbingItemWithLeftHand = itemToGrab;
+                SoundFXEvents.TriggerGrabSound();
                 var clickIcons = grabbingItemWithLeftHand.GetComponentInChildren<ClickActionIconToggler>();
                 if (clickIcons != null)
                 {

@@ -23,6 +23,7 @@ public class DeliverArea : MonoBehaviour
         if (other.CompareTag(collectableItemTag))
         {
             GameEvents.TriggerAddItem();
+            SoundFXEvents.TriggerDeliverySound();
         }
     }
 
