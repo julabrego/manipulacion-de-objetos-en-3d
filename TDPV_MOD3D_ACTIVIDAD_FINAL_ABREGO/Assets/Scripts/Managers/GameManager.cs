@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     {
         currentInGameState = InGameStates.PLAYING_GAME;
         currentScreen = Screens.GAME;
-        ApplicationManager.Instance.GoToScene("Prototype_house");
+        ApplicationManager.Instance.GoToScene("GameLevel01");
     }
 
     public void Restart()

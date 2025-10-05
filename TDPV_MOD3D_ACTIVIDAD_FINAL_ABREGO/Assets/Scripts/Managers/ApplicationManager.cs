@@ -7,7 +7,7 @@ public class ApplicationManager : MonoBehaviour
 {
     public static ApplicationManager Instance {  get; private set; }
 
-    public static string[] scenesNames = {"MainMenu", "Prototype_house", "GameLevel2", "EndScene" };
+    public static string[] scenesNames = {"MainMenu", "GameLevel01" };
 
     void Awake()
     {
